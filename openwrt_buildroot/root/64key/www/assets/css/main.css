@@ -1,0 +1,104 @@
+body { padding-top: 70px;}
+/*
+ * Navbar
+ */
+
+.logo {
+    height: 20px;
+    vertical-align: center;
+}
+
+.navbar {
+	
+	background-color: #181d21;
+	
+}
+
+.image-logo {
+	
+	height: 20px;
+	
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+	
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    padding: 0px;
+    z-index: 1000;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+    
+    background-color: #2e353d;
+    border-right: 1px solid #eee;
+}
+
+.sidebar > .description {
+	
+	background: #23282e;
+	color: white;
+	text-align: center;
+	line-height: 50px;
+	font-size: 16px;
+	height: 50px;
+	border: hidden;
+	border-bottom: 1px solid black;
+	
+}
+
+.sidebar > .hosts {
+	
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	color: white;
+	
+}
+
+.sidebar > .hosts > li {
+	border-left: 3px solid transparent;
+	padding: 10px;
+	padding-left: 15px;
+	border-bottom: 1px solid #23282e;	
+	
+}
+
+.sidebar > .hosts > li:hover {
+	border-left: 3px solid white;
+	box-shadow: 0px 0px 5px #000000;
+	animation: 	highlight 0.2s ease-in-out;
+	
+}
+
+.label {
+	
+	cursor: pointer;
+	
+}
+
+
+@keyframes highlight {
+	
+	from {
+		
+		border-left: 3px solid transparent;
+		box-shadow: 0px 0px 0px #000000
+		
+	}
+	
+	to {
+		
+		border-left: 3px solid white;
+		box-shadow: 0px 0px 5px #000000
+		
+	}
+	
+}

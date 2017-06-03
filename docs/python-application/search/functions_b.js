@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['search_5fdomain',['search_domain',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_event.html#aefb71219c1815ca87f5d1a21a4564342',1,'messagerouter::avahi_discovery::AvahiEvent']]],
+  ['send',['send',['../classmessagerouter_1_1webuiclient_1_1_web_ui_client.html#af8ed70900a5831bbe23ec9eb87795070',1,'messagerouter.webuiclient.WebUiClient.send()'],['../classmessagerouter_1_1wsconnection_1_1_w_s_connection.html#af8ed70900a5831bbe23ec9eb87795070',1,'messagerouter.wsconnection.WSConnection.send()']]],
+  ['send_5fpeers_5flist',['send_peers_list',['../classmessagerouter_1_1webuiserver_1_1_web_ui_server.html#a7d67a939fc68ae6f9c52670d589ab9c7',1,'messagerouter::webuiserver::WebUiServer']]],
+  ['send_5fself_5fdata',['send_self_data',['../classmessagerouter_1_1messageserver_1_1_message_server.html#a98b4ca11f100b53a57b9b5db8fb418f3',1,'messagerouter::messageserver::MessageServer']]],
+  ['send_5fto_5fall',['send_to_all',['../classmessagerouter_1_1wsserver_1_1_w_s_server.html#a052ae3de0c3ccd3fdb71e9b844252971',1,'messagerouter::wsserver::WSServer']]],
+  ['send_5fto_5fuid',['send_to_uid',['../classmessagerouter_1_1messagerouter_1_1_peers_connections_manager.html#a062341cffc6c47014c3cb85509f2e5cf',1,'messagerouter::messagerouter::PeersConnectionsManager']]],
+  ['service_5fdesc',['service_desc',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_event.html#acaea6df7f7a3e5e0a3d7d1d1d99a229c',1,'messagerouter::avahi_discovery::AvahiEvent']]],
+  ['service_5fname',['service_name',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_event.html#af9139d53f5e77c130c3a9f26f37a9a08',1,'messagerouter::avahi_discovery::AvahiEvent']]],
+  ['service_5ftype',['service_type',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_event.html#a92b3b087a8019f8154870e8211e8f419',1,'messagerouter::avahi_discovery::AvahiEvent']]],
+  ['services',['services',['../classmessagerouter_1_1peer_1_1_peer.html#a86642d0b48a12cf2fa67a0b1d50ec7c7',1,'messagerouter::peer::Peer']]],
+  ['set_5fport',['set_port',['../classmessagerouter_1_1avahi__publish_1_1_avahi_publisher.html#a158584458b271b13415fd80e22b32e71',1,'messagerouter::avahi_publish::AvahiPublisher']]],
+  ['set_5fservice_5fdesc',['set_service_desc',['../classmessagerouter_1_1avahi__publish_1_1_avahi_publisher.html#ad517a1bb626e6c48fe05f8bcc86d4791',1,'messagerouter::avahi_publish::AvahiPublisher']]],
+  ['set_5fservice_5fname',['set_service_name',['../classmessagerouter_1_1avahi__publish_1_1_avahi_publisher.html#a9500878745312aec6492929a4a382cf9',1,'messagerouter::avahi_publish::AvahiPublisher']]],
+  ['set_5fservice_5ftype',['set_service_type',['../classmessagerouter_1_1avahi__publish_1_1_avahi_publisher.html#ac9b81a8f81c284e7a9d331ca86f0d209',1,'messagerouter::avahi_publish::AvahiPublisher']]],
+  ['start_5fbrowsing',['start_browsing',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_discovery.html#a8258ccd6c58f74cfc2eb078ac4a6a78a',1,'messagerouter::avahi_discovery::AvahiDiscovery']]],
+  ['stop',['stop',['../classmessagerouter_1_1processexecutor_1_1_process_executor.html#a26ca7c1c7fcdd35378e7be97727047a6',1,'messagerouter::processexecutor::ProcessExecutor']]],
+  ['stop_5fbrowsing',['stop_browsing',['../classmessagerouter_1_1avahi__discovery_1_1_avahi_discovery.html#a2005e139135317ca4c127e3c97135e3c',1,'messagerouter::avahi_discovery::AvahiDiscovery']]],
+  ['stop_5fpublishing',['stop_publishing',['../classmessagerouter_1_1avahi__publish_1_1_avahi_publisher.html#af0c1657af52c5a2049787ff38bb677d6',1,'messagerouter::avahi_publish::AvahiPublisher']]]
+];

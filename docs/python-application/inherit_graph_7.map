@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classmessagerouter_1_1messageserver_1_1_message_server.html" title="WebSocket server listening on the mesh network. " alt="" coords="136,5,249,32"/>
+<area shape="rect" id="node3" href="$classmessagerouter_1_1webuiserver_1_1_web_ui_server.html" title="Accepts connections from the host computer&#39;s browser, where the Web GUI is running. " alt="" coords="143,56,243,83"/>
+</map>

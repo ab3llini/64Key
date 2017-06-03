@@ -1,0 +1,144 @@
+#!/bin/sh /etc/rc.common
+# Bring up the USB ethernet gadget
+# Derived from https://github.com/ev3dev/ev3-systemd/blob/ev3dev-jessie/scripts/ev3-usb.sh
+
+START=20
+STOP=20
+
+start() {
+	echo start
+	# Load the kernel modules
+	insmod configfs.ko
+	insmod libcomposite.ko
+	insmod u_ether.ko
+	insmod usb_f_ecm.ko
+	insmod usb_f_rndis.ko
+	insmod usb_f_mass_storage
+
+	set -e
+	#cdc_only="true" # uncomment this line if you want macOS compatibility
+	gadget_name=64key
+	g=/sys/kernel/config/usb_gadget/${gadget_name}
+	usb_ver="0x0200" # USB 2.0
+	dev_class="2" # Communications
+	vid="0x1d6b" # Linux Foundation
+	pid="0x0104" # Multifunction Composite Gadget
+	mfg="PoliFactory"
+	prod="64Key"
+	device="$(basename /sys/class/udc/*)"
+	serial="00000001"
+	attr="0xC0" # Self powered
+	pwr="1" # 2mA
+	cfg1="RNDIS"
+	cfg2="CDC"
+	ms_vendor_code="0xcd" # Microsoft
+	ms_qw_sign="MSFT100" # Microsoft
+	ms_compat_id="RNDIS" # matches Windows RNDIS Drivers
+	ms_subcompat_id="5162001" # matches Windows RNDIS 6.0 Driver
+
+	mount -t configfs none /sys/kernel/config
+	mkdir -p ${g}
+	echo "${usb_ver}" > ${g}/bcdUSB
+	echo 0x0100 > ${g}/bcdDevice
+	echo "${vid}" > ${g}/idVendor
+	echo "${pid}" > ${g}/idProduct
+	mkdir -p ${g}/strings/0x409
+	echo "${mfg}" > ${g}/strings/0x409/manufacturer
+	echo "${prod}" > ${g}/strings/0x409/product
+	echo "${serial}" > ${g}/strings/0x409/serialnumber
+
+	# Create 2 configurations. The first will be RNDIS, which is required by
+	# Windows to be first. The second will be CDC. Linux and Mac are smart
+	# enough to ignore RNDIS and load the CDC configuration.
+
+	# There is a bug in OS X 10.11 / 10.12 that makes Mac no longer smart enough
+	# to use the second configuration. So we've added the cdc_only check to
+	# work around this.
+	if [ -z $cdc_only ]; then
+
+		# config 1 is for RNDIS
+		mkdir -p ${g}/configs/c.1
+		echo "${attr}" > ${g}/configs/c.1/bmAttributes
+		echo "${pwr}" > ${g}/configs/c.1/MaxPower
+		mkdir -p ${g}/configs/c.1/strings/0x409
+		echo "${cfg1}" > ${g}/configs/c.1/strings/0x409/configuration
+		echo "1" > ${g}/os_desc/use
+
+		# On Windows 7 and later, the RNDIS 5.1 driver would be used by default,
+		# but it does not work very well. The RNDIS 6.0 driver works better. In
+		# order to get this driver to load automatically, we have to use a
+		# Microsoft-specific extension of USB.
+
+		echo "1" > ${g}/os_desc/use
+		echo "${ms_vendor_code}" > ${g}/os_desc/b_vendor_code
+		echo "${ms_qw_sign}" > ${g}/os_desc/qw_sign
+
+		# Create the RNDIS function, including the Microsoft-specific bits
+
+		mkdir -p ${g}/functions/rndis.usb0
+		echo "${ms_compat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/compatible_id
+		echo "${ms_subcompat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id
+	fi
+
+	# config 2 is for CDC
+	mkdir -p ${g}/configs/c.2
+	echo "${attr}" > ${g}/configs/c.2/bmAttributes
+	echo "${pwr}" > ${g}/configs/c.2/MaxPower
+	mkdir -p ${g}/configs/c.2/strings/0x409
+	echo "${cfg2}" > ${g}/configs/c.2/strings/0x409/configuration
+
+	# Create the CDC function
+	mkdir -p ${g}/functions/ecm.usb0
+
+	# Create the mass storage device function
+	mkdir ${g}/functions/mass_storage.0
+	echo /root/mass_storage.img > ${g}/functions/mass_storage.0/lun.0/file
+
+	# Link everything up and bind the USB device
+	if [ -z $cdc_only ]; then
+		ln -s ${g}/functions/rndis.usb0 ${g}/configs/c.1
+		ln -s ${g}/configs/c.1 ${g}/os_desc
+		ln -s ${g}/functions/mass_storage.0 ${g}/configs/c.1
+	fi
+	ln -s ${g}/functions/ecm.usb0 ${g}/configs/c.2
+	ln -s ${g}/functions/mass_storage.0 ${g}/configs/c.2
+
+	# Enable the gadget
+	echo "${device}" > ${g}/UDC
+
+	ifconfig usb0 up
+	ifconfig usb1 up
+	echo "Done."
+}
+
+stop() {
+	echo stop
+	if [ ! -d ${g} ]; then
+        echo "Gadget is already down."
+        exit 1
+    fi
+    echo "Taking down gadget..."
+
+    # Have to unlink and remove directories in reverse order.
+    # Checks allow to finish takedown after error.
+
+    if [ "$(cat ${g}/UDC)" != "" ]; then
+        echo "" > ${g}/UDC
+    fi
+    rm -f ${g}/os_desc/c.1
+    rm -f ${g}/configs/c.2/ecm.usb0
+    rm -f ${g}/configs/c.2/mass_storage.0
+    rm -f ${g}/configs/c.1/rndis.usb0
+    rm -f ${g}/configs/c.1/mass_storage.0
+    [ -d ${g}/functions/ecm.usb0 ] && rmdir ${g}/functions/ecm.usb0
+    [ -d ${g}/functions/rndis.usb0 ] && rmdir ${g}/functions/rndis.usb0
+    [ -d ${g}/functions/mass_storage.0 ] && rmdir ${g}/functions/mass_storage.0
+    [ -d ${g}/configs/c.2/strings/0x409 ] && rmdir ${g}/configs/c.2/strings/0x409
+    [ -d ${g}/configs/c.2 ] && rmdir ${g}/configs/c.2
+    [ -d ${g}/configs/c.1/strings/0x409 ] && rmdir ${g}/configs/c.1/strings/0x409
+    [ -d ${g}/configs/c.1 ] && rmdir ${g}/configs/c.1
+    [ -d ${g}/strings/0x409 ] && rmdir ${g}/strings/0x409
+    rmdir ${g}
+
+    echo "Done."
+}
