@@ -272,12 +272,22 @@ Assuming we have named our 64Key repo `64Key`:
 cd ../64Key
 ln -s .config ../openwrt/
 ln -s files ../openwrt/
+
 ```
 
-To expand our diff config file into a full configuration file:
+Expand our diff config file into a full configuration file:
 
 ```
 make defconfig
+make menuconfig
+<ESC> <ESC>
+```
+
+Fetch and install all the latest lede packages:
+
+```
+./scripts/feeds update -a
+./scripts/feeds install -a
 ```
 
 An then start the building process in the background:
