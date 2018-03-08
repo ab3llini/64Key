@@ -36,8 +36,11 @@ class Controller {
 			context 	: servicesCtx,
 			chat 		: new ChatService(this.connection, servicesCtx),
 			ping 		: new PingService(this.connection, servicesCtx),
+			fileshare : new FileShare(this.connection, servicesCtx)
 
 		}
+
+		this.store = new Store(this.connection)
 
 		//Remember the label that activated the last service in order to change its color
 		this.selectedServiceLabel = null;
@@ -91,6 +94,7 @@ class Controller {
 				//Let's update the connection hosts holder
 				this.connection.setHosts(frame["hosts"]);
 
+
 				//Call a static method to render them in the right DOM element.
 				this.hostsCtx.html(Render.hosts(frame["hosts"]))
 
@@ -118,6 +122,12 @@ class Controller {
 
 						//Some data for the ping service.
 						this.services.ping.onData(frame.from, frame.data)
+						break;
+
+					case AvailableServices.Fileshare:
+
+						//Some data for the ping service.
+						this.services.fileshare.onData(frame.from, frame.data)
 						break;
 
 					default:
@@ -173,6 +183,16 @@ class Controller {
 
 				//Register the service as running
 				this.services.running = this.services.ping;
+
+			break;
+
+			case AvailableServices.Fileshare:
+
+				//Load ping service
+				this.services.fileshare.load(uid);
+
+				//Register the service as running
+				this.services.running = this.services.fileshare;
 
 			break;
 

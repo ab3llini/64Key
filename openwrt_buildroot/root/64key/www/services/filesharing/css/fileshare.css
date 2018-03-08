@@ -1,0 +1,142 @@
+
+:root {
+	
+--color-default : #E91E63;
+--color : #03A9F4;
+--secondary-color : #00E676;
+--animation-duration : 0.5s;
+
+}
+
+body {
+	
+	background: #032021
+	
+}
+
+.outer {
+    display: table;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto; 
+    width: 400px;
+}
+
+.transition {
+
+	-webkit-transition: all var(--animation-duration) ease-in-out;
+	-moz-transition: all var(--animation-duration) ease-in-out;
+	-o-transition: all var(--animation-duration) ease-in-out;
+	-ms-transition: all var(--animation-duration) ease-in-out;
+	transition: all var(--animation-duration) ease-in-out;
+}
+
+.dropzone {
+	
+	opacity: 1;
+	border-radius: 5px; 
+	animation: fade-in 1s ease-in-out;
+
+}
+
+.dropzone > .svg-context {
+	
+	width: 400px;
+	height: 400px;
+	
+}
+
+.dropzone > .status {
+	
+	position: relative;
+	top: -225px;
+	width: 400px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 35px;
+	font-family: Verdana;
+	text-align: center;
+	color: var(--color-default);;
+	
+}
+
+.hidden {
+
+	display: none;	
+	
+}
+
+.dropzone > .svg-context > .svg {
+	
+	stroke: var(--color-default);;
+	fill: none;
+	stroke-width: 0.5;
+	stroke-linecap: round;
+	
+}
+
+.dropzone > .upload {
+
+	color : var(--color);
+		
+}
+
+.dropzone > .svg-context > .upload {
+	
+	stroke: var(--color);
+	
+}
+
+.dropzone > .done {
+
+	color : var(--secondary-color);
+		
+}
+
+.dropzone > .svg-context > .done {
+	
+	stroke: var(--secondary-color);
+	
+}
+
+.dropzone > .svg-context > .tick {
+	
+	stroke-dasharray: 100;
+	stroke-dashoffset: 0;
+	animation: perform-tick 2s ease-in-out;
+	
+}
+
+@keyframes fade-in {
+	
+	0% {
+		
+		opacity: 0;
+		
+	}
+	100% {
+		
+		opacity: 1;
+		
+	}
+	
+}
+
+@keyframes perform-tick {
+	0% {
+		stroke-dashoffset: 100;
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}

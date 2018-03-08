@@ -58,7 +58,7 @@ let Protocol = {
 		/** Data that will be forwarded to a service */
 		DataIn	: 'service-data-in',
 		/** Data containing some log */
-		Log 	: 'log'
+		Log 	: 'log',
 
 	}
 
@@ -72,6 +72,7 @@ let AvailableServices = {
 
 	Chat : 'chat',
 	Ping : 'ping',
+	Fileshare : 'fileshare'
 
 }
 
