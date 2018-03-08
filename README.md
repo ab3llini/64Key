@@ -11,6 +11,7 @@ Each device can talk with each other through a mesh network.
 2. [Operating system](#operating-system)
 3. [Gadget mode script](#gadget-mode-script)
 4. [Python application](#python-application)
+5. [Building a 64Key image](#building)
 
 ## Hardware
 ### System on a Chip
@@ -233,7 +234,6 @@ Just `cd` to the folder containing `__main__.py` and run:
 ```
 python3 .
 ```
-
 ## Network v2
 The new network architecture has the purpose of giving access to the mesh network between 64keys directly from the network-over-usb interface.
 Moreover it will cover the issues of addressing and network discovery
@@ -252,3 +252,36 @@ So the tasks left for an application running on the 64key will be:
 
 * neighbour discovery (possibly getting the information from the lower network layers)
 * others...
+
+## Building
+
+To build a 64Key image we will clone the lede repository and
+create symlinks of this repo into it.
+
+```
+cd ..
+git clone https://github.com/openwrt/openwrt.git
+cd openwrt
+./scripts/feeds update -a
+./scripts/feeds install -a
+```
+
+Assuming we have named our 64Key repo `64Key`:
+
+```
+cd ../64Key
+ln -s .config ../openwrt/
+ln -s files ../openwrt/
+```
+
+To expand our diff config file into a full configuration file:
+
+```
+make defconfig
+```
+
+An then start the building process in the background:
+
+```
+ionice -c 3 nice -n19 make -j5
+```
