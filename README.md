@@ -208,7 +208,15 @@ It does configure the device as a composite device, that acts at the same time a
 
 On Linux computers, both the RNDIS and the CDC driver works.
 
-## Python application
+## Network v1
+This is the initial network architecture, that will be kept for the first demo, and replaced in the future with a more flexible one.
+
+It is composed of the following networks:
+- connection from host to 64Key via USB-ethernet gadget, IPv4 addressing
+- connection between 64keys via WiFi mesh (batman protocol), IPv4 addressing
+- no direct forwarding between the two networks
+The host-64key interface is used only for accessing the web interface, and the communication between web applications running on each key is handled by a python application.
+### Python application
 
 The Python application running on the device acts as a bridge between the mesh network and the web GUI.
 
@@ -218,8 +226,25 @@ Every device has an unique identifier (UID), an username and a list of available
 Vice versa, it can also receive data from the other peers, and forward it to the GUI. The application does not change in any way the objects received, so the GUI is free to implement any kind of feature without having to change the Python code.
 By default, the UID is the IP address of the device. It has to be hardcoded for each device before flashing the firmware by editing the /etc/config/network file.
 
-### Start the application
+#### Start the application
 Just `cd` to the folder containing `__main__.py` and run:
 ```
 python3 .
 ```
+
+## Network v2
+The new network architecture has the purpose of giving access to the mesh network between 64keys directly from the network-over-usb interface.
+Moreover it will cover the issues of addressing and network discovery
+
+It is composed of the following networks:
+- connection from host to 64Key via USB-ethernet gadget
+- connection between 64keys via WiFi mesh (batman protocol), IPv6 link-local addressing (address derived from unique MAC address)
+- bridge on each 64key between the two networks; the IPv6 link-local address should be visible on the USB-network interface.
+
+The adoption of IPv6 addressing solves the problem of giving an __unique network address__ to each 64key in a non trivial network, in fact a link-local IPv6 address can be derived from a unique MAC address and be therefore unique on the network.
+
+Having an IPv6 address belonging to the mesh network accessible on the host USB interface should also make less necessary the (inefficient) message passing by the python application.
+
+So the tasks left for an application running on the 64key will be:
+- neighbour discovery (possibly getting the information from the lower network layers)
+- others...
