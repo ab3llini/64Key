@@ -212,6 +212,7 @@ On Linux computers, both the RNDIS and the CDC driver works.
 This is the initial network architecture, that will be kept for the first demo, and replaced in the future with a more flexible one.
 
 It is composed of the following networks:
+
 * connection from host to 64Key via USB-ethernet gadget, IPv4 addressing
 * connection between 64keys via WiFi mesh (batman protocol), IPv4 addressing
 * no direct forwarding between the two networks
@@ -237,6 +238,7 @@ The new network architecture has the purpose of giving access to the mesh networ
 Moreover it will cover the issues of addressing and network discovery
 
 It is composed of the following networks:
+
 * connection from host to 64Key via USB-ethernet gadget
 * connection between 64keys via WiFi mesh (batman protocol), IPv6 link-local addressing (address derived from unique MAC address)
 * bridge on each 64key between the two networks; the IPv6 link-local address should be visible on the USB-network interface.
@@ -246,5 +248,6 @@ The adoption of IPv6 addressing solves the problem of giving an __unique network
 Having an IPv6 address belonging to the mesh network accessible on the host USB interface should also make less necessary the (inefficient) message passing by the python application.
 
 So the tasks left for an application running on the 64key will be:
+
 * neighbour discovery (possibly getting the information from the lower network layers)
 * others...
