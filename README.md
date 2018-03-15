@@ -216,6 +216,7 @@ It is composed of the following networks:
 * connection from host to 64Key via USB-ethernet gadget, IPv4 addressing
 * connection between 64keys via WiFi mesh (batman protocol), IPv4 addressing
 * no direct forwarding between the two networks
+
 The host-64key interface is used only for accessing the web interface, and the communication between web applications running on each key is handled by a python application.
 ### Python application
 
