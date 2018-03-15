@@ -212,9 +212,9 @@ On Linux computers, both the RNDIS and the CDC driver works.
 This is the initial network architecture, that will be kept for the first demo, and replaced in the future with a more flexible one.
 
 It is composed of the following networks:
-- connection from host to 64Key via USB-ethernet gadget, IPv4 addressing
-- connection between 64keys via WiFi mesh (batman protocol), IPv4 addressing
-- no direct forwarding between the two networks
+* connection from host to 64Key via USB-ethernet gadget, IPv4 addressing
+* connection between 64keys via WiFi mesh (batman protocol), IPv4 addressing
+* no direct forwarding between the two networks
 The host-64key interface is used only for accessing the web interface, and the communication between web applications running on each key is handled by a python application.
 ### Python application
 
@@ -237,14 +237,14 @@ The new network architecture has the purpose of giving access to the mesh networ
 Moreover it will cover the issues of addressing and network discovery
 
 It is composed of the following networks:
-- connection from host to 64Key via USB-ethernet gadget
-- connection between 64keys via WiFi mesh (batman protocol), IPv6 link-local addressing (address derived from unique MAC address)
-- bridge on each 64key between the two networks; the IPv6 link-local address should be visible on the USB-network interface.
+* connection from host to 64Key via USB-ethernet gadget
+* connection between 64keys via WiFi mesh (batman protocol), IPv6 link-local addressing (address derived from unique MAC address)
+* bridge on each 64key between the two networks; the IPv6 link-local address should be visible on the USB-network interface.
 
 The adoption of IPv6 addressing solves the problem of giving an __unique network address__ to each 64key in a non trivial network, in fact a link-local IPv6 address can be derived from a unique MAC address and be therefore unique on the network.
 
 Having an IPv6 address belonging to the mesh network accessible on the host USB interface should also make less necessary the (inefficient) message passing by the python application.
 
 So the tasks left for an application running on the 64key will be:
-- neighbour discovery (possibly getting the information from the lower network layers)
-- others...
+* neighbour discovery (possibly getting the information from the lower network layers)
+* others...
