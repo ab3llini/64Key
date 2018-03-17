@@ -40,7 +40,6 @@ class Controller {
 
 		}
 
-		this.store = new Store(this.connection)
 
 		//Remember the label that activated the last service in order to change its color
 		this.selectedServiceLabel = null;
