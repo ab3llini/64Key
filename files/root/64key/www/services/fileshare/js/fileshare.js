@@ -1,6 +1,9 @@
-class FileShare {
+class FileShare extends Service {
 
 	constructor(connection, context) {
+
+		//Build the super class, ALWAYS!
+		super(connection, context)
 
 		this.connection = connection;
 
@@ -25,6 +28,8 @@ class FileShare {
 		};
 
         //---------------------------------------------------------------ROUTER SPOOF END */
+
+		this.context = context;
 
 
 		/* Windows of 1MB */
@@ -133,7 +138,7 @@ class FileShare {
 	}
 	share(file) {
 
-		this.stream = new Stream(this.sendData.bind(this), file, this.settings, this.setProgress.bind(this), this.onFileSent.bind(this));
+		this.stream = new Stream(this.sendDataCallback.bind(this), file, this.settings, this.setProgress.bind(this), this.onFileSent.bind(this));
 		this.isStreaming = true;
 
 	}
@@ -263,12 +268,12 @@ class FileShare {
 	sendAck(ack) {
 
 		//console.log("Sending ack:" + ack.description)
-		this.sendData({ type : 'ack', ack : ack })
+		this.sendDataCallback({ type : 'ack', ack : ack })
 
 
 	}
 
-	sendData(data) {
+	sendDataCallback(data) {
 
 		this.sendData(this.target,({ service : 'fileshare', data : data }));
 
@@ -431,10 +436,10 @@ class Stream {
 		this.timeout = settings.timeout;
 
 		//Number of frames with the predefined size
-		this.n_frames = Math.floor(file.size / frameSize);
+		this.n_frames = Math.floor(file.size / this.frameSize);
 
 		//Size (in bytes) of the last frame
-		this.lastFrameSize = file.size % frameSize;
+		this.lastFrameSize = file.size % this.frameSize;
 
 		if (this.lastFrameSize > 0) {
 
@@ -462,7 +467,7 @@ class Stream {
 		}
 
 		//Read the file into an ArrayBuffer
-		this.buffer = _reader.readAsArrayBuffer(file);
+		this.buffer = _reader.readAsArrayBuffer(this.file);
 
 	}
 

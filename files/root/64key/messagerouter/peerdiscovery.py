@@ -9,7 +9,7 @@ class PeerDiscovery:
     Fires an event when a hosts appears on the network or goes away.
     """
     input_buffer_size = 1024
-    broadcast_addr = "255.255.255.255"
+    broadcast_addr = "10.255.255.255"
     default_port = 1234
 
     def __init__(self):

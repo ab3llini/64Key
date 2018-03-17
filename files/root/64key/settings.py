@@ -20,6 +20,7 @@ services = {
 mesh_interface = 'bat0'
 mesh_port = 8082
 local_interface = 'br-lan'
+discovery_mesh_port = 25631
 local_port = 8081
 web_port = 8000
 web_url_prefix = '/www'
