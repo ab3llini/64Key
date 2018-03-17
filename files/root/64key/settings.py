@@ -10,6 +10,10 @@ services = {
     'ping': {
         'name': 'Ping',
         'options': {}
+    },
+    'fileshare' : {
+        'name' : 'Fileshare',
+        'options' : {}
     }
 }
 
