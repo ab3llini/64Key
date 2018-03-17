@@ -118,7 +118,7 @@ class AvahiDiscovery:
         self._proc.on_newline += lambda line: \
             self._on_process_output(line)
         ## Event fired when there is a new event from Avahi
-        self.on_avahi_event = EventHook()
+        self.on_discovery_event = EventHook()
 
     def start_browsing(self):
         """!
@@ -138,7 +138,7 @@ class AvahiDiscovery:
         line = line.decode('utf-8').rstrip()
         try:
             evt = AvahiEvent(line)
-            self.on_avahi_event.fire(evt)
+            self.on_discovery_event.fire(evt)
         except ValueError:
             """!
             Half of the output lines of avahi-browse do not have the IP 

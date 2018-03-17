@@ -1,8 +1,7 @@
 import asyncio
 
 from netutils import NetUtils
-from .avahi_discovery import *
-from .avahi_publish import *
+from .peerdiscovery import *
 from .peer import Peer
 from .logger import Logger, LogLevel
 from .messageserver import MessageServer
@@ -45,39 +44,18 @@ class MessageRouter:
         self._webui_server.on_new_client += self._peer_connected
         self._webui_server.on_client_message += self._message_from_ui
 
-        self._discovery = AvahiDiscovery()
-        self._discovery.on_avahi_event += self._on_avahi_event
+        self._discovery = PeerDiscovery()
+        self._discovery.set_discovery_port(settings.discovery_mesh_port)
+        self._discovery.on_discovery_event += self._on_discovery_event
         self._discovery.start_browsing()
-
-        self._publisher = AvahiPublisher()
-        self._publisher.set_service_type(settings.service_type)
-        self._publisher.set_service_name(settings.service_name)
-        self._publisher.set_service_desc(settings.service_desc)
-        self._publisher.set_port(settings.mesh_port)
-        self._publisher.publish()
+        self._discovery.start_publishing(self._mesh_ip, settings.mesh_port)
 
         self._peers = PeersConnectionsManager()
         self._peers.on_peers_list_updated += self._peer_connected
         Logger.new_message += self._log_message
 
-    def _avahi_event_useful(self, evt):
-        return evt.ip_version == 4 \
-               and evt.service_type == settings.service_type \
-               and evt.address != self._mesh_ip \
-               and evt.interface == settings.mesh_interface
-
-    def _on_avahi_event(self, event):
-        if self._avahi_event_useful(event):
-            Logger.log("Found service \"{}\" on peer {}:{}".format(
-                event.service_name,
-                event.address,
-                event.port
-            ), LogLevel.Debug)
-            if event.evt_type == AvahiEvent.SERVICE_NEW \
-                    or event.evt_type == AvahiEvent.SERVICE_UPDATED:
-                self._peers.add_connection_to(event.address, event.port)
-            elif event.evt_type == AvahiEvent.SERVICE_REMOVED:
-                self._peers.remove_connections(event.address, event.port)
+    def _on_discovery_event(self, ip, port):
+        self._peers.add_connection_to(ip, port)
 
     def _peer_connected(self, peer=None):
         self._webui_server.send_peers_list(self._peers.peers_list)
@@ -157,14 +135,21 @@ class PeersConnectionsManager:
         @param ip The ip of the peer
         @param port The TCP port
         """
-        c = Peer()
-        c.on_failed += self._peer_connection_error
-        c.on_disconnect += self._peer_disconnection
-        c.on_ready += self._peer_ready
-        self._connections.add(c)
-        asyncio.get_event_loop().create_task(
-            c.connect_to(ip, port)
-        )
+        already_connected = False
+        for c in self._connections:
+            if c.remote_ip == ip and c.remote_port == port:
+                already_connected = True
+
+        if not already_connected:
+            Logger.log("Found peer at {}:{}".format(ip, port), LogLevel.Debug)
+            c = Peer()
+            c.on_failed += self._peer_connection_error
+            c.on_disconnect += self._peer_disconnection
+            c.on_ready += self._peer_ready
+            self._connections.add(c)
+            asyncio.get_event_loop().create_task(
+                c.connect_to(ip, port)
+            )
 
     def remove_connections(self, ip, port):
         """!
