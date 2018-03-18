@@ -177,8 +177,8 @@ class PeersConnectionsManager:
         @param message The message to deliver
         @param uid The UID of the peer
         """
-        Logger.log("Sending a message to all peers: {}".format(message),
-                   LogLevel.Debug)
+        Logger.log("Sending a message to %s" % uid, LogLevel.Debug)
+
         found = False
         for c in self._connections:
             if c.uid == uid:
