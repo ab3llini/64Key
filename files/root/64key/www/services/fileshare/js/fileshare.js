@@ -36,12 +36,12 @@ class FileShare extends Service {
 		this.settings = {
 
 			//The frame size in Bytes
-			frameSize : 10000, //10KB
+			frameSize : 1000, //10KB
 			//The frame window, expressed in number of frames
-			windowSize :  100,
+			windowSize :  10,
 
             //The timeout, expressed in ms, to wait for the ack in the Stop & Wait protocol
-            timeout : 3000
+            timeout : 20000
 
 		}
 
@@ -232,7 +232,7 @@ class FileShare extends Service {
 
         window.setTimeout(function () {
             //Wait for status to reach 0px top margin
-            this.dropzoneTick.classList.remove("hidden")
+            document.getElementById('dropzone-tick').classList.remove("hidden")
 
         }, 500);
 
@@ -275,7 +275,7 @@ class FileShare extends Service {
 
 	sendDataCallback(data) {
 
-		this.sendData(this.target,({ service : 'fileshare', data : data }));
+		this.sendData(this.target,{ service : 'fileshare', data : data });
 
 	}
 
@@ -548,15 +548,13 @@ class Stream {
 		//Inform that we are sending a new file
 
 		this.sendAndWaitForAck({
-			service : 'fileshare',
-			data : {
-				type : 'begin-stream',
-			    size : _self.file.size,
-			    name : _self.file.name,
-			    mime : _self.file.type,
-				frameSize : _self.frameSize,
-				windowSize : _self.windowSize
-			}
+
+			type : 'begin-stream',
+		    size : _self.file.size,
+		    name : _self.file.name,
+		    mime : _self.file.type,
+			frameSize : _self.frameSize,
+			windowSize : _self.windowSize
 		});
 
 	}
@@ -568,14 +566,10 @@ class Stream {
 
 		let _synch = {
 
-			service : 'fileshare',
-			data : {
-				type : 'synch',
-			    w_id : w.id,
-			    w_size : w.w_size,
-			    bytes : w.bytes
-			}
-
+			type : 'synch',
+		    w_id : w.id,
+		    w_size : w.w_size,
+		    bytes : w.bytes
 		}
 
 		_self.sendWithoutAck(_synch);
@@ -583,12 +577,9 @@ class Stream {
 		w.frames.forEach(function(frame, index) {
 
 			let frame_obj = {
-				service : 'fileshare',
-				data : {
-					type : 'data',
-				    id : index,
-				    frame : frame
-				}
+				type : 'data',
+			    id : index,
+			    frame : frame
 			};
 
 			if (index == w.frames.length - 1) {

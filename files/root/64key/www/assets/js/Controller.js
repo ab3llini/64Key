@@ -78,6 +78,8 @@ class Controller {
 		*/
 	parseConnectionFrame(frame) {
 
+		console.log(frame)
+
 		//Begin by parsing the frame data type
 		switch(frame.type) {
 

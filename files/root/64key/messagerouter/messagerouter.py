@@ -79,13 +79,13 @@ class MessageRouter:
             if message['type'] == 'service-data-out':
                 message['from'] = settings.uid
                 self._peers.send_to_uid(message, message['to'])
-                Logger.log(
-                    "Received a message from web client at {}:{}, message: {}"
-                        .format(
-                        connection.remote_ip,
-                        connection.remote_port,
-                        message
-                    ), LogLevel.Debug)
+                #Logger.log(
+                #    "Received a message from web client at {}:{}, message: {}"
+                #        .format(
+                #        connection.remote_ip,
+                #        connection.remote_port,
+                #        message
+                #    ), LogLevel.Debug)
         except KeyError:
             Logger.log(
                 "Received an invalid message from web client at {}:{}, message: {}"
@@ -97,10 +97,13 @@ class MessageRouter:
 
     def _log_message(self, msg, level):
         level_str = None
+
         if level == LogLevel.Info:
             level_str = 'info'
+            return
         elif level == LogLevel.Debug:
             level_str = 'info'
+            return
         elif level == LogLevel.Warning:
             level_str = 'warning'
         elif level == LogLevel.Fatal:
@@ -137,7 +140,7 @@ class PeersConnectionsManager:
         """
         already_connected = False
         for c in self._connections:
-            if c.remote_ip == ip and c.remote_port == port:
+            if c.remote_ip == ip:
                 already_connected = True
 
         if not already_connected:
@@ -163,7 +166,7 @@ class PeersConnectionsManager:
                    .format(ip, port), LogLevel.Debug)
         modified = False
         for c in self._connections:
-            if c.remote_ip == ip and c.remote_port == port:
+            if c.remote_ip == ip:
                 c.disconnect()
                 self._connections.remove(c)
                 modified = True
@@ -177,7 +180,7 @@ class PeersConnectionsManager:
         @param message The message to deliver
         @param uid The UID of the peer
         """
-        Logger.log("Sending a message to %s" % uid, LogLevel.Debug)
+        #Logger.log("Sending a message to %s" % uid, LogLevel.Debug)
 
         found = False
         for c in self._connections:
