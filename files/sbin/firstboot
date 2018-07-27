@@ -4,6 +4,6 @@
 UUID=`uuidgen`
 echo $UUID > /etc/uuid
 # Use it to generate a unique MAC address for the usb and wifi ifaces
-WIFIMAC=`echo $UUID"-wifi" | sha256sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/00:64:4B:\1:\2:\3/'`
+WIFIMAC=`echo $UUID"-wifi" | sha256sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/36:34:4B:\1:\2:\3/'`
 echo $WIFIMAC
 
