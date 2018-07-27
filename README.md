@@ -164,6 +164,12 @@ linino>
 ```
 
 ## Operating system
+The SOM9331 module now runs mainline OpenWRT
+
+See __Building__ section for details on how to compile an image.
+
+#### Initial software version
+
 The device runs a patched version of OpenWRT with support for USB gadget mode
  on the AR9331, wich is available at this repository: https://github.com/neykov/chipidea-openwrt/tree/chipidea-device
 
@@ -255,39 +261,33 @@ So the tasks left for an application running on the 64key will be:
 
 ## Building
 
-To build a 64Key image we will clone the lede repository and
-create symlinks of this repo into it.
+To build a 64Key image we need to clone this repo and then launch `bootstrap.sh`
+that will take care of:
+- cloning the openwrt repository
+- create symlinks of this repo into it.
+- launch the openwrt `feeds` scripts to prepare the build system
 
 ```
-cd ..
-git clone https://github.com/openwrt/openwrt.git
+git clone git@bitbucket.org:neslabpolimi/64key.git
+cd 64key
+./bootstrap.sh
+```
+
+If you have setup this build system a while ago you need to update the openwrt source and packages
+
+```
 cd openwrt
+git pull
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 ```
 
-Assuming we have named our 64Key repo `64Key`:
+Then we need to launch the `menuconfig`,
+Leaving the default options will create a working image.
 
 ```
-cd ../64Key
-ln -s .config ../openwrt/
-ln -s files ../openwrt/
-
-```
-
-Expand our diff config file into a full configuration file:
-
-```
-make defconfig
 make menuconfig
-<ESC> <ESC>
-```
-
-Fetch and install all the latest lede packages:
-
-```
-./scripts/feeds update -a
-./scripts/feeds install -a
+<select SAVE>
 ```
 
 An then start the building process in the background:
