@@ -264,6 +264,7 @@ So the tasks left for an application running on the 64key will be:
 To build a 64Key image we need to clone this repo and then launch `bootstrap.sh`
 that will take care of:
 - cloning the openwrt repository
+- copy the diffconfig into openwrt/.config
 - create symlinks of this repo into it.
 - launch the openwrt `feeds` scripts to prepare the build system
 
@@ -280,6 +281,12 @@ cd openwrt
 git pull
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+```
+
+Now we need to expand the `diffconfig` file into a full `.config`
+
+```
+make defconfig
 ```
 
 Then we need to launch the `menuconfig`,
