@@ -1,9 +1,14 @@
 #!/bin/sh
 
+# Restore to factory settings
+/sbin/jffs2reset $@
+
 # Generate unique identifier for each 64Key
 UUID=`uuidgen`
 echo $UUID > /etc/uuid
 # Use it to generate a unique MAC address for the usb and wifi ifaces
-WIFIMAC=`echo $UUID"-wifi" | sha256sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/36:34:4B:\1:\2:\3/'`
-echo $WIFIMAC
-
+WIFIMAC=`echo $UUID"-wifi" | sha256sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/36:34:4b:\1:\2:\3/'`
+echo 'Initializing wireless interface MAC address: '$WIFIMAC
+# Setting the mac address
+uci set wireless.@wifi-iface[0].macaddr=$WIFIMAC
+uci commit
