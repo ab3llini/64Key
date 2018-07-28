@@ -295,3 +295,33 @@ An then start the building process in the background:
 ```
 ionice -c 3 nice -n19 make -j5
 ```
+
+You can find the resulting image in `openwrt/bin/targets/ar71xx/generic/openwrt-ar71xx-generic-som9331-squashfs-sysupgrade.bin`
+
+## Flashing the image on the 64key
+To flash an image on the 64Key you need first to copy it from your computer
+to the 64Key.
+It is recommended to copy the image in `/tmp` that is mounted in RAM (64MB), to 
+avoid filling up the flash (8MB)
+
+On the coputer:
+```
+scp openwrt-64key-sysupgrade.bin root@192.168.64.1:/tmp`
+```
+
+On the 64Key:
+```
+cd /tmp
+sysupgrade -n openwrt-64key-sysupgrade.bin
+```
+__Don't plug off the 64key while is updating the firmware__
+
+### Notes
+
+The `-n` option is to avoid backup and restore of current configuration
+
+If you are using a SOM9331 module running the factory image (openwrt Attitude Adjustment),
+you need to use the `-F` flag because the BOARD ID from factory needs to be updated
+```
+sysupgrade -n -F openwrt-64key-sysupgrade.bin
+```
