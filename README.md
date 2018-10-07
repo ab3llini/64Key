@@ -261,6 +261,8 @@ So the tasks left for an application running on the 64key will be:
 
 ## Building
 
+#### Note: the diffconfig contains just the lines to be changed w.r.t the default configuration, this makes it more readable and portable across versions.
+
 To build a 64Key image we need to clone this repo and then launch `bootstrap.sh`
 that will take care of:
 - cloning the openwrt repository
@@ -304,6 +306,15 @@ ionice -c 3 nice -n19 make -j5
 ```
 
 You can find the resulting image in `openwrt/bin/targets/ar71xx/generic/openwrt-ar71xx-generic-som9331-squashfs-sysupgrade.bin`
+
+### Adding new options to the upstream 64Key openwrt configuration
+To add new options to the openwrt build, after doing the configuration with `make menuconfig`, we can generate the new `diffconfig` file with the new options added:
+```
+cd openwrt
+./scripts/diffconfig.sh > ../newdiffconfig
+cd ..
+mv newdiffconfig diffconfig
+```
 
 ## Flashing the image on the 64key
 To flash an image on the 64Key you need first to copy it from your computer
