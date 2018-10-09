@@ -240,6 +240,11 @@ Just `cd` to the folder containing `__main__.py` and run:
 ```
 python3 .
 ```
+
+#### Python code mainteinance
+The initial python3 code uses the websockets module https://github.com/aaugustin/websockets. 
+The module source code is copied inside `this-repo/files/root/64key/websockets` 
+It may need to be updated from time to time.
 ## Network v2
 The new network architecture has the purpose of giving access to the mesh network between 64keys directly from the network-over-usb interface.
 Moreover it will cover the issues of addressing and network discovery

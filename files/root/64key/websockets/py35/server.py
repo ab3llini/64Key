@@ -3,27 +3,16 @@ async def __aenter__(self):
 
 
 async def __aexit__(self, exc_type, exc_value, traceback):
-    await self.ws_client.close()
+    self.ws_server.close()
+    await self.ws_server.wait_closed()
 
 
 async def __await_impl__(self):
     # Duplicated with __iter__ because Python 3.7 requires an async function
     # (as explained in __await__ below) which Python 3.4 doesn't support.
-    transport, protocol = await self._creating_connection
-
-    try:
-        await protocol.handshake(
-            self._wsuri, origin=self._origin,
-            available_extensions=protocol.available_extensions,
-            available_subprotocols=protocol.available_subprotocols,
-            extra_headers=protocol.extra_headers,
-        )
-    except Exception:
-        await protocol.fail_connection()
-        raise
-
-    self.ws_client = protocol
-    return protocol
+    server = await self._creating_server
+    self.ws_server.wrap(server)
+    return self.ws_server
 
 
 def __await__(self):

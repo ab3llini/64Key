@@ -21,9 +21,9 @@ class WSServer:
         self.on_new_client = EventHook()
         self.on_client_message = EventHook()
         self.on_client_disconnect = EventHook()
-        asyncio.get_event_loop().create_task(
-            websockets.serve(self._new_connection, ip, port)
-        )
+        start_server = websockets.serve(self._new_connection, ip, port)
+        asyncio.get_event_loop().run_until_complete(start_server)
+        asyncio.get_event_loop().run_forever()
         Logger.log("{} server started, listening on {}:{}"
                    .format(self.__class__.__name__, ip, port), LogLevel.Info)
 
