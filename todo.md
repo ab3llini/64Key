@@ -1,0 +1,5 @@
+- [x] use defconfig instead of .config
+- [ ] use openwrt 18.06 branch -> write in README.md
+- [ ] fix wireless MAC generation
+- [x] fix usb network interface
+- [ ] learn ipv6 address autoconfiguration
