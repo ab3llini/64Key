@@ -15,3 +15,5 @@ config wifi-iface
 	option mesh_id '64Key-mesh'
 	option encryption 'psk2+ccmp'
 	option sae_password 'sessantaquattrokappa'
+        option macaddr '00:11:33:22:44:56'
+
