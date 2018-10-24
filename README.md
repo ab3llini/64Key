@@ -1,3 +1,8 @@
+## We are going to [#Sensys2018](http://sensys.acm.org/2018/) !
+The 16th ACM Conference on Embedded Networked Sensor Systems (SenSys 2018) introduces a highly selective, single-track forum for research on systems issues of sensors and sensor-enabled smart systems, broadly defined. 
+
+# See the PDF paper above for a complete and organized description of this product.
+
 ## Goals of the project
 This project aims to make a device useful to chat and transfer files between computers in a context where there aren't other easy ways to do so.
 Such a context could be a university lab, since you can't install software on the lab's computer, nor you want to do a login in a website.
