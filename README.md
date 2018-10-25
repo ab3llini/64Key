@@ -1,3 +1,5 @@
+![The idea](/64K.png?raw=true)
+
 ## We are going to [#Sensys2018](http://sensys.acm.org/2018/) !
 The 16th ACM Conference on Embedded Networked Sensor Systems (SenSys 2018) introduces a highly selective, single-track forum for research on systems issues of sensors and sensor-enabled smart systems, broadly defined. 
 
