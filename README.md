@@ -1,4 +1,4 @@
-##64Key codebase [![CodeFactor](https://www.codefactor.io/repository/github/ab3llini/64key/badge)](https://www.codefactor.io/repository/github/ab3llini/64key)
+## 64Key codebase [![CodeFactor](https://www.codefactor.io/repository/github/ab3llini/64key/badge)](https://www.codefactor.io/repository/github/ab3llini/64key)
 
 ![The idea](/64K.png?raw=true)
 
